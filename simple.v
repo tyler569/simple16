@@ -6,24 +6,29 @@
 //
 // word / byte / address: 16 bit
 //
-// 16 registers
+// 16 registers; r0 aleays read 0
 // 2op addressing
 //
 // instruction formats:
 // 0000 0000 oppp drrr      // 1op - 0 is invalid
 // 0000 oppp drrr srrr      // 2op - 0 is invalid
-// 0001 0000 rrrr cccc      // cond jmp to r if c
-// 0001 cccc ivvvvvvv       // cond jmp relative iv +-127 if c
+// 0001 cccc rrrr 0000      // cjmp to r   if c
+// 0001 cccc rrrr 0001      // cjmp to [r] if c
+// 0001 cccc 0000 0010  N   // cjmp abs N  if c
 // 0010 oppp drrr ivvv      // 2op immidiate
-// 0011                     // free
-// 0100 drrr arrr 0000      // load [a] to d
-// 0101 drrr arrr 0000      // store d to [a]
-// 0110 drrr arrr orrr      // load [a + o] to d
-// 0111 drrr arrr orrr      // store d to [a + o]
+// 0011 cccc ivvvvvvv       // cjmp relative +-127 if c
+// 0100 drrr arrr orrr      // load [a + o] to d
+// 0101 drrr arrr orrr      // store d to [a + o]
+// 0110
+// 0111
 // 1000 drrr ivvvvvvv       // load immidiate v to d
 // 1001 rrrr 00000000   N   // load immidiate N in next word to r
 // 1010                     // free
 // 1011 drrr srrr dp sp     // move s to d from pages (see below)
+// 1100
+// 1101
+// 1110
+// 1111
 //
 // register pages:
 //    0   1   2   3   4   5   6   7   [...]
