@@ -1,8 +1,6 @@
-
-// 
-// Simple
+// simple16
 //
-// A CPU
+// A minimal CPU
 //
 // word / byte / address: 16 bit
 //
@@ -19,8 +17,11 @@
 // 0011 cccc ivvvvvvv       // cjmp relative +-127 if c
 // 0100 drrr arrr orrr      // load [a + o] to d
 // 0101 drrr arrr orrr      // store d to [a + o]
-// 0110
-// 0111
+// 0110 cccc rrrr 0000      // ccall r if c
+// 0110 cccc rrrr 0001      // ccall [r] if c
+// 0110 cccc rrrr 0010  N   // ccall abs N if c
+// 0111 0000 0000 0001      // ret
+// 0111                     // misc
 // 1000 drrr ivvvvvvv       // load immidiate v to d
 // 1001 rrrr 00000000   N   // load immidiate N in next word to r
 // 1010                     // free
@@ -54,15 +55,14 @@
 // <rest> - reserved
 //
 // 1ops:
-// 0000 - not
-// 0001 - inv (2s comp invert)
-// 0010 - push (r15 as sp)
-// 0011 - pop  (r15 as sp)
-// 0100 - inc
-// 0101 - dec
+// 0001 - not
+// 0010 - inv (2s comp invert)
+// 0011 - push (r15 as sp)
+// 0100 - pop  (r15 as sp)
+// 0101 - inc
+// 0110 - dec
 //   thoughts:
 //   int, syscall, msr?
-//
 
 module SimpleALU(a, b, op, flags, out, flags_out);
     input[15:0] a, b;
